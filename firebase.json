@@ -1,0 +1,78 @@
+{
+  "firebase": "radiant-inferno-2296",
+  "public": "dist",
+  "headers": [
+    {
+      "source": "**",
+      "headers": [
+        {"key": "X-Content-Type-Options", "value": "nosniff"},
+        {"key": "X-Frame-Options", "value": "DENY"},
+        {"key": "X-UA-Compatible", "value": "ie=edge"},
+        {"key": "X-XSS-Protection", "value": "1; mode=block"},
+        {"key": "Cache-Control", "value": "no-cache, no-store, must-revalidate"}
+      ]
+    },
+    {
+      "source": "**/*.@(js|css|map|jpeg|jpg|png|gif|svg|ico|ttf|eot|woff|woff2)",
+      "headers": [
+        {"key": "Cache-Control", "value": "max-age=3600"}
+      ]
+    }
+  ],
+  "rewrites": [{
+    "source": "**",
+    "destination": "/index.html"
+  }],
+  "rules":{
+    ".read":"root.child('users/' + auth.uid + '/role').val() === 'admin'",
+    ".write":"root.child('users/' + auth.uid + '/role').val() === 'admin'",
+    "users":{
+      ".validate":"newData.hasChildren()",
+      "$user_id":{
+        ".read":"auth.uid === $user_id",
+        ".validate":"newData.hasChildren(['email', 'name'])",
+        "email":{
+          ".write":"auth.uid === $user_id",
+          ".validate":"newData.isString() && newData.val().length > 0"
+        },
+        "name":{
+          ".read":"root.child('users/' + auth.uid + '/role').val() === 'teacher'",
+          ".write":"auth.uid === $user_id",
+          ".validate":"newData.isString() && newData.val().length > 0"
+        },
+        "role":{
+          ".validate":"newData.isString() && newData.val().matches(/^(student|teacher|admin)$/)"
+        }
+      }
+    },
+    "lessons":{
+      ".read":"auth !== null",
+      ".write":"root.child('users/' + auth.uid + '/role').val() === 'teacher'",
+      ".validate":"newData.hasChildren()",
+      "$lesson_id":{
+        ".validate":"newData.hasChildren(['title', 'date', 'videoLink'])",
+        "title":{
+          ".validate":"newData.isString() && newData.val().length > 0"
+        },
+        "date":{
+          ".validate":"newData.isString() && newData.val().length > 0"
+        },
+        "videoLink":{
+          ".validate":"newData.isString() && newData.val().length > 0"
+        }
+      }
+    },
+    "lessons_attendants":{
+      ".read":"root.child('users/' + auth.uid + '/role').val() === 'teacher'",
+      ".write":"root.child('users/' + auth.uid + '/role').val() === 'teacher'",
+      "$lesson_id":{
+        ".validate":"newData.hasChildren() && root.child('lessons/' + $lesson_id).exists()",
+        "$attendant_id":{
+          ".read":"auth.uid === $attendant_id",
+          ".write":"auth.uid === $attendant_id && newData.val() === 'pending'",
+          ".validate":"newData.isString() && newData.val().matches(/^(pending|confirmed|rejected)$/) && root.child('users/' + $attendant_id).exists()"
+        }
+      }
+    }
+  }
+}
