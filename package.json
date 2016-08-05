@@ -6,7 +6,8 @@
   "scripts": {
     "clean": "rm -Rf ./dist",
     "lint": "./node_modules/.bin/eslint client/",
-    "test": "env $(cat .env | xargs) ./node_modules/.bin/mocha --compilers js:babel-register --require .jsdom.js \"client/**/__tests__/*-test.js\"",
+    "unit": "env $(cat .env | xargs) ./node_modules/.bin/mocha --compilers js:babel-register --require .jsdom.js \"client/**/__tests__/*-test.js\"",
+    "test": "npm run lint && npm run unit",
     "build": "env $(cat .env | xargs) NODE_ENV=production ./node_modules/.bin/webpack",
     "start": "env $(cat .env | xargs) NODE_ENV=development ./node_modules/.bin/webpack-dev-server --port 8080 --history-api-fallback",
     "deploy": "./node_modules/.bin/firebase deploy",

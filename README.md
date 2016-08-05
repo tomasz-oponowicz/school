@@ -54,11 +54,7 @@ Visit the demo page:
 
 ## Test
 
-* Lint scripts:
-
-        $ npm run lint
-        
-* Run unit tests:
+* Lint scripts and run unit tests:
 
         $ npm test
 
