@@ -1,5 +1,7 @@
 # School
 
+[![Build Status](https://travis-ci.org/simkimsia/UtilityBehaviors.png)](https://travis-ci.org/tomasz-oponowicz/school)
+
 Visit the demo page: 
 
     https://radiant-inferno-2296.firebaseapp.com
