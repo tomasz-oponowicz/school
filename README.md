@@ -28,9 +28,6 @@ Visit the demo page:
 | admin@mailinator.com   | admin    |  admin  |
 | teacher@mailinator.com | teacher  | teacher |
 | student@mailinator.com | student  | student |
-| david@mailinator.com   | david    | student |
-| donnie@mailinator.com  | donnie   | student |
-| edith@mailinator.com   | edith    | student |
 
 ## Build
 
