@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/simkimsia/UtilityBehaviors.png)](https://travis-ci.org/tomasz-oponowicz/school)
 
+> **Warning**: This is a sample project. The goal is to use the project to perform static program analysis or test new frameworks.
+
 Visit the demo page: 
 
     https://radiant-inferno-2296.firebaseapp.com
